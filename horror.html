@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horror</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>BM MOVIES</h1>
+    <div id="nav-bar">
+        <h3><a href="./index.html">Home</a></h3>
+        <h3><a href="./bollywood.html">Bollywood</a></h3>
+        <h3><a href="./hollywood.html">Hollywood</a></h3>
+        <h3><a href="./horror.html">Horror</a></h3>
+        <h3><a href="./comdey.html">Comdey</a></h3>
+        <button id="colorToggle">
+            <img class="secImgLogo"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlS9D3XgeMparmzd9hCnyHgAPNFFRLCeI_gw&usqp=CAU" alt="">
+        </button>
+    </div>
+    <div id="searchItem">
+        <input type="text" id="searchInput" placeholder="Enter a movie">
+        <button id="searchBtn">Search</button>
+        <div id="inputBox"></div>
+    </div>
+
+<main>
+    <div id="container">
+
+    </div>
+</main>
+</body>
+<script>
+   var btn = document.getElementById("searchBtn")
+btn.addEventListener("click",getMovieData)
+document.getElementById("searchInput").addEventListener("input",getMovieData)
+
+async function getMovieData(){
+    var input = document.getElementById("searchInput").value || "horror"
+    if(input.length < 4){
+        return
+    }
+     var getData = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=27d532d9&s=${input}`)
+    var finalData = await getData.json()
+    console.log(finalData);
+    if(finalData.Search != undefined){
+    suggestionData(finalData.Search)
+    showData(finalData.Search)
+    }
+}
+function showData(arr){
+    var container = document.getElementById("container")
+   container.innerHTML = ""
+    arr.map((ele)=>{
+        var newDiv = document.createElement("div")
+        newDiv.className = "myCont"
+        newDiv.innerHTML = `
+        <img src=${ele.Poster}>
+        <h3 class='heading3'>${ele.Title}</h3>
+        <h3 class='heading3'> type : ${ele.Type}</h3>
+        `
+        container.append(newDiv)
+    })
+} 
+getMovieData()
+</script>
+<script src="./searchType.js"></script>
+</html>

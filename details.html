@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>\
+    <style>
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.myCard {
+    margin-top: 120px;
+    border-radius: 10px;
+    background: #000;
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 500px;
+    text-align: center;
+}
+
+.imgCard {
+    margin-bottom: 20px;
+}
+
+.imgCard img {
+    max-width: 100%;
+    height: auto;
+}
+
+h2 {
+    margin: 10px 0;
+}
+
+h3,
+h4 {
+    margin: 5px 0;
+}
+
+p {
+    margin: 10px 0;
+}
+    </style>
+</head>
+<body>
+    <div id="container"></div> 
+</body>
+<script>
+
+    async function getSingleMovie(){
+        var get = localStorage.getItem("name")
+        // console.log(get);
+        var getSingle = await fetch(`http://www.omdbapi.com/?&i=${get}&apikey=83de0602`)
+        console.log(getSingle);
+
+        var getMovie = await getSingle.json()
+        // console.log(getMovie);
+        showMovie(getMovie)
+    }
+    getSingleMovie()
+    function showMovie(movie) {
+        console.log(movie);
+    var container = document.getElementById("container");
+    
+    var newDiv = document.createElement("div");
+    newDiv.className = "myCard";
+    newDiv.innerHTML = `
+    <div class="card">
+        <div class="imgCard">
+            <img src=${movie.Poster} alt="${movie.Title}">
+        </div>
+        <h2>${movie.Title}</h2>
+        <h3>Actors : ${movie.Actors}</h3>
+        <h4>Country : ${movie.Country}</h4>
+        <p>Writer : ${movie.Writer}</p>
+        <p>${movie.Plot}</p>
+    </div>
+    `
+    container.appendChild(newDiv);
+}
+
+    
+</script>
+</html>
